@@ -1,6 +1,18 @@
-from flask import Flask
+from flask import Flask, jsonify
 
 app = Flask(__name__)
+
+stores = [
+    {
+        "name": "Shake Shack",
+        "items": [
+            {
+                "name": "Shack Burger",
+                "price": 5.99
+            }
+        ]
+    }
+]
 
 # REST API- how a web server responds to your requests
 
@@ -25,7 +37,7 @@ def get_store(name):
 # GET /store - send a list of all the stores back
 @app.route("/store", methods=["GET"])
 def get_all_store():
-    pass
+    return jsonify({"stores": stores})  # backend is the stores-dict-json(txt)-send to user
 
 
 # POST /store/<string:name>/item{name:, price:} - create an item inside a specific store
