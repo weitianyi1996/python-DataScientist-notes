@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -22,10 +22,16 @@ stores = [
 
 
 # create endpoints example:
-# POST /store data: {name: } - create a new store with a given name
+# POST /store data: {name: } - create a new store with a given name(from browser/user)
 @app.route("/store", methods=['POST'])
 def create_store():
-    pass
+    request_data = request.get_json()  # convert json(input from user) into python dict
+    new_store = {
+        "name": request_data["name"],
+        "item":[]
+    }
+    stores.append(new_store)
+    return jsonify(new_store)
 
 
 # GET /store/<string:name> - send a specific store's info back
