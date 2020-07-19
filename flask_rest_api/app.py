@@ -30,13 +30,13 @@ def get_all_store():
 
 # POST /store/<string:name>/item{name:, price:} - create an item inside a specific store
 @app.route("/store/<string:name>/item", methods=["POST"])
-def create_store():
+def create_item_in_store():
     pass
 
 
 # GET /store/<string:name>/item - get all the items in a specific store
 @app.route("/store/<string:name>/item", methods=["GET"])
-def get_all_item():
+def get_item_in_store():
     pass
 
 
