@@ -36,7 +36,7 @@ def create_item_in_store():
 
 # GET /store/<string:name>/item - get all the items in a specific store
 @app.route("/store/<string:name>/item", methods=["GET"])
-def get_item_in_store():
+def get_items_in_store():
     pass
 
 
