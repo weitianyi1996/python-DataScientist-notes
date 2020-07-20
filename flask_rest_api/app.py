@@ -7,7 +7,7 @@ stores = [
         "name": "ShakeShack",
         "items": [
             {
-                "name": "Shack Burger",
+                "name": "ShackBurger",
                 "price": 5.99
             }
         ]
@@ -37,9 +37,9 @@ def create_store():
 # GET /store/<string:name> - send a specific store's info back
 @app.route("/store/<string:name>", methods=["GET"])  # "http://127.0.0.1:5000/store/popeyes"
 def get_store(name):
-    for dic in stores:
-        if dic["name"] == name:
-            return jsonify(dic)
+    for store in stores:
+        if store["name"] == name:
+            return jsonify(store)
     return jsonify({"message": "this store not found."})
 
 
@@ -51,14 +51,26 @@ def get_all_store():
 
 # POST /store/<string:name>/item{name:, price:} - create an item inside a specific store
 @app.route("/store/<string:name>/item", methods=["POST"])
-def create_item_in_store():
-    pass
+def create_item_in_store(name):
+    request_data = request.get_json()  # input json- python dictionary
+    for store in stores:
+        if store["name"] == name:
+            new_item = {
+                "name": request_data["name"],
+                "price": request_data["price"]
+            }
+            store["items"].append(new_item)
+            return jsonify(store)
+    return jsonify({"message": "this store not found."})
 
 
 # GET /store/<string:name>/item - get all the items in a specific store
 @app.route("/store/<string:name>/item", methods=["GET"])
-def get_items_in_store():
-    pass
+def get_items_in_store(name):
+    for store in stores:
+        if store["name"] == name:
+            return jsonify(store["items"])
+    return jsonify({"message": "this store not found."})
 
 
 @app.route("/")  # end point
