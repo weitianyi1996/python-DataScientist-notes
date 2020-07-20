@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 stores = [
     {
-        "name": "Shake Shack",
+        "name": "ShakeShack",
         "items": [
             {
                 "name": "Shack Burger",
@@ -28,7 +28,7 @@ def create_store():
     request_data = request.get_json()  # convert json(input from user) into python dict
     new_store = {
         "name": request_data["name"],
-        "item":[]
+        "item": []
     }
     stores.append(new_store)
     return jsonify(new_store)
@@ -37,7 +37,10 @@ def create_store():
 # GET /store/<string:name> - send a specific store's info back
 @app.route("/store/<string:name>", methods=["GET"])  # "http://127.0.0.1:5000/store/popeyes"
 def get_store(name):
-    pass
+    for dic in stores:
+        if dic["name"] == name:
+            return jsonify(dic)
+    return jsonify({"message": "this store not found."})
 
 
 # GET /store - send a list of all the stores back
