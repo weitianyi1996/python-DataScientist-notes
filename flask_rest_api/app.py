@@ -15,7 +15,7 @@ stores = [
 ]
 
 # structure: JavaScript(UI)-REST API(GET/POST)-Python Backend(Calculation)
-# REST API- how a web server responds to your requests
+# REST API- how a web server responds to your requests(you could imagine server as a waiter)
 
 
 @app.route("/")  # end point
