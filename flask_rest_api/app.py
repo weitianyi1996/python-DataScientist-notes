@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 
 app = Flask(__name__)
 
@@ -14,14 +14,22 @@ stores = [
     }
 ]
 
+# structure: JavaScript-REST API-Python Backend
 # REST API- how a web server responds to your requests
+
+
+@app.route("/")  # end point
+def home():
+    return render_template("index-1.html")
 
 # server
 # POST - receive data
 # GET - send data back
 
 
-# create endpoints example:
+# create API endpoints example
+# jsonify-convert python dict to json(adding "")
+
 # POST /store data: {name: } - create a new store with a given name(from browser/user)
 @app.route("/store", methods=['POST'])
 def create_store():
@@ -73,8 +81,8 @@ def get_items_in_store(name):
     return jsonify({"message": "this store not found."})
 
 
-@app.route("/")  # end point
-def home():
-    return "Hello, world!"
+# @app.route("/")  # end point
+# def home():
+#     return "Hello, world!"
 
 app.run(port=5000)
