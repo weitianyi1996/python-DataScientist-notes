@@ -14,7 +14,7 @@ stores = [
     }
 ]
 
-# structure: JavaScript-REST API-Python Backend
+# structure: JavaScript(UI)-REST API(GET/POST)-Python Backend(Calculation)
 # REST API- how a web server responds to your requests
 
 
