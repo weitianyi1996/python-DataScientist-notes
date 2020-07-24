@@ -17,6 +17,9 @@ stores = [
 # structure: JavaScript(UI)-REST API(GET/POST)-Python Backend(Calculation)
 # REST API- how a web server responds to your requests(you could imagine server as a waiter)
 
+# use Postman to test REST API:
+# GET/POST request test: -like using JavaScript to create json content(input) then call REST API(endpoints)-check return
+
 
 @app.route("/")  # end point
 def home():
@@ -27,7 +30,7 @@ def home():
 # GET - send data back
 
 
-# create API endpoints example
+# create API endpoints example-different endpoints serve for different purpose
 # jsonify-convert python dict to json(adding "")
 
 # POST /store data: {name: } - create a new store with a given name(from browser/user)
@@ -36,7 +39,7 @@ def create_store():
     request_data = request.get_json()  # convert json(input from user) into python dict
     new_store = {
         "name": request_data["name"],
-        "item": []
+        "items": []
     }
     stores.append(new_store)
     return jsonify(new_store)
