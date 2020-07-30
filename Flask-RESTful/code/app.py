@@ -11,13 +11,22 @@ items = []
 class Item(Resource):
     # @app.route("/student/<string:name>")
     def get(self, name):
-        for item in items:
-            if item["name"] == name:
-                return item  # no jsonify needed for flask_restful
-        return {"item": None}, 404  # should return a json format thing-most popular http status code is 200
+        # for item in items:
+        #     if item["name"] == name:
+        #         return item  # no jsonify needed for flask_restful
+
+        item = next(filter(lambda item: item["name"] == name, items), None)  # return True/False- if no value return None
+        # return map(lambda item: return item if item["name"] == name, items)  # filter-map
+
+        # should return a json format thing-most popular http status code is 200
+        return {"item": item}, 200 if item else 404
 
     def post(self, name):
         # send item to server and give it a price from UI
+
+        if next(filter(lambda item: item["name"] == name, items), None):  # check if this item already exist
+            return "this {} already exist.".format(name), 400
+
         data = request.get_json()  # this is user input
         item = {
                 "name": name,
