@@ -28,6 +28,7 @@ def home():
 # server
 # POST - receive data
 # GET - send data back
+# PUT -create a new item or modify existing item
 
 
 # create API endpoints example-different endpoints serve for different purpose
