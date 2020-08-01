@@ -44,6 +44,27 @@ class Item(Resource):
         items.append(item)
         return item, 201  # 201 creating status
 
+    def delete(self, name):
+        global items  # otherwise will be local variable and cant use variable to define itself
+        items = list(filter(lambda item: item["name"] != name, items))
+
+        return {"message": "item has been deleted."}
+
+    def put(self, name):
+        data = request.get_json()
+        for item in items:
+            if item["name"] == name:
+                item.update(data)
+                return item
+        item = {
+            "name": name,
+            "price": data["price"]
+        }
+        items.append(item)
+        return item
+
+
+
 
 class ItemList(Resource):
     def get(self):
