@@ -1,8 +1,16 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
+from flask_jwt import JWT, jwt_required
+
+from security import authenticate, identity
 
 app = Flask(__name__)
+app.secret_key = "tianyi"
 api = Api(app)   # no need different endpoints/routes
+
+jwt = JWT(app, authenticate, identity)  # jwt object create a new endpoint: /auth
+# auth workflow: if authenticate function pass return jw token-- pass to identity function
+# jwt_required() done- call GET/POST method
 
 items = []
 
@@ -10,6 +18,7 @@ items = []
 #  resource- can also be understood backend
 class Item(Resource):
     # @app.route("/student/<string:name>")
+    @jwt_required()  # jwt auth before call GET method
     def get(self, name):
         # for item in items:
         #     if item["name"] == name:
