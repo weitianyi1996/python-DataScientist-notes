@@ -1,0 +1,11 @@
+#  create a new folder(Flask-RESTful)
+#  cd Flask-RESTful
+# in code parent folder-Flask-RESTful-SQLite
+
+pip install virtualenv
+virtualenv venv --python=python3.7
+source venv/bin/activate
+python --version
+
+#  deactivate
+#  source venv/bin/activate
