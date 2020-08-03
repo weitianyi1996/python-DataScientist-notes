@@ -17,7 +17,7 @@ cursor.execute(insert_query, user)
 
 users = [
     (2, "Aoby", "password233"),
-    (1, "Boby", "password323")
+    (3, "Boby", "password323")
 ]
 cursor.executemany(insert_query, users)
 
@@ -26,7 +26,7 @@ select_query = "SELECT* FROM users"
 for row in cursor.execute(select_query):
     print(row)
 
-connection.commit()
+connection.commit()  # necessary if adding any data to database
 
 connection.close()
 

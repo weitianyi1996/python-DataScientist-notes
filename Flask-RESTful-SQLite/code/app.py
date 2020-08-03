@@ -87,7 +87,7 @@ api.add_resource(Item, "/item/<string:name>")  # call API- decorator  http://127
 api.add_resource(ItemList, "/items")  # call API- decorator  http://127.0.0.1:5000/student/toby
 
 
-app.run(port=5000, debug=True)
+app.run(port=8000, debug=True)
 
 
 
