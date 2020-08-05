@@ -1,4 +1,5 @@
 import sqlite3
+from flask_restful import Resource, reqparse
 
 
 class User:
@@ -40,6 +41,36 @@ class User:
 
         connection.close()
         return user
+
+
+# let a user to sign up(later will create a new endpoint)
+class UserRegister(Resource):
+    # user input in web/payload
+    parser = reqparse.RequestParser()
+    parser.add_argument("username",  # check if include "username" in dict's key
+                        type=str,
+                        required=True,
+                        help="Check input! This field can not leave blank!!!"
+                        )
+    parser.add_argument("userid",
+                        type=str,
+                        required=True,
+                        help="Check input! This field can not leave blank!!!"
+                        )
+
+    def post(self):
+        connection = sqlite3.connect("data.db")
+        cursor = connection.cursor()
+
+        data = UserRegister.parser.parse_args()
+        # insert values
+        insert_query = "INSERT INTO users VALUES(NULL, ?, ?)"
+        cursor.execute(insert_query, (data["username"], data["userid"]))
+
+        connection.commit()
+        connection.close()
+
+        return {"message": "User has been signed up."}
 
 
 

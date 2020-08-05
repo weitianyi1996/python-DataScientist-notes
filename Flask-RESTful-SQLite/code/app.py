@@ -3,6 +3,7 @@ from flask_restful import Resource, Api, reqparse
 from flask_jwt import JWT, jwt_required
 
 from security import authenticate, identity
+from user import UserRegister
 
 app = Flask(__name__)
 app.secret_key = "tianyi"
@@ -85,6 +86,7 @@ class ItemList(Resource):
 # endpoint
 api.add_resource(Item, "/item/<string:name>")  # call API- decorator  http://127.0.0.1:5000/student/toby
 api.add_resource(ItemList, "/items")  # call API- decorator  http://127.0.0.1:5000/student/toby
+api.add_resource(UserRegister, "/register")  # call API- decorator  http://127.0.0.1:5000/register
 
 
 app.run(port=8000, debug=True)
