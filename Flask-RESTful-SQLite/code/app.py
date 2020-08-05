@@ -89,7 +89,7 @@ api.add_resource(ItemList, "/items")  # call API- decorator  http://127.0.0.1:50
 api.add_resource(UserRegister, "/register")  # call API- decorator  http://127.0.0.1:5000/register
 
 
-app.run(port=8000, debug=True)
+app.run(port=9000, debug=True)
 
 
 

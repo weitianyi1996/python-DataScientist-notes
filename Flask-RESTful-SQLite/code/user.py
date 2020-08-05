@@ -52,20 +52,25 @@ class UserRegister(Resource):
                         required=True,
                         help="Check input! This field can not leave blank!!!"
                         )
-    parser.add_argument("userid",
+    parser.add_argument("password",
                         type=str,
                         required=True,
                         help="Check input! This field can not leave blank!!!"
                         )
 
     def post(self):
+        data = UserRegister.parser.parse_args()
+
+        # avoid duplicate username
+        if User.find_by_username(data["username"]):
+            return {"message": "user already exist, please input a new username"}, 400
+
         connection = sqlite3.connect("data.db")
         cursor = connection.cursor()
 
-        data = UserRegister.parser.parse_args()
         # insert values
         insert_query = "INSERT INTO users VALUES(NULL, ?, ?)"
-        cursor.execute(insert_query, (data["username"], data["userid"]))
+        cursor.execute(insert_query, (data["username"], data["password"]))
 
         connection.commit()
         connection.close()
