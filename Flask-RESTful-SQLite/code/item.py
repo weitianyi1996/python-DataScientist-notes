@@ -21,7 +21,13 @@ class Item(Resource):
     @jwt_required()  # jwt auth before calling GET method
     def get(self, name):
         # item = next(filter(lambda item: item["name"] == name, items), None)  # return True/False- if no value return None
+        item = Item.find_by_name(name)
+        if item:
+            return item
+        return {"message": "item not found"}, 404
 
+    @classmethod
+    def find_by_name(cls, name):
         connection = sqlite3.connect("data.db")
         cursor = connection.cursor()
 
@@ -32,22 +38,31 @@ class Item(Resource):
         connection.close()
 
         if row:
-            return {"item":{"name": row[0], "price": row[1]}}
-        return {"message":"item not found"}, 404
+            return {"item": {"name": row[0], "price": row[1]}}
 
     def post(self, name):
         # send item to server and give it a price from UI
 
-        if next(filter(lambda item: item["name"] == name, items), None):  # check if this item already exist
+        # if next(filter(lambda item: item["name"] == name, items), None):  # check if this item already exist
+        #     return "this {} already exist.".format(name), 400
+        if Item.find_by_name(name):
             return "this {} already exist.".format(name), 400
 
         data = Item.parser.parse_args()
-        # data = request.get_json()  # this is user input
         item = {
                 "name": name,
                 "price": data["price"]
                 }
-        items.append(item)
+
+        connection = sqlite3.connect("data.db")
+        cursor = connection.cursor()
+
+        insert_query = "INSERT INTO items VALUES(?, ?)"
+        cursor.execute(insert_query, (item["name"], item["price"]))
+
+        connection.commit()  # need to commit!
+        connection.close()
+
         return item, 201  # 201 creating status
 
     def delete(self, name):

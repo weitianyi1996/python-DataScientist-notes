@@ -75,7 +75,7 @@ class UserRegister(Resource):
         connection.commit()
         connection.close()
 
-        return {"message": "User has been signed up."}
+        return {"message": "GREAT! User has been signed up."}
 
 
 
