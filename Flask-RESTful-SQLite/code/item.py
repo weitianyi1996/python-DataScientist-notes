@@ -54,6 +54,15 @@ class Item(Resource):
                 "price": data["price"]
                 }
 
+        try:
+            Item.insert(item)
+        except:
+            return {"message": " NOTICE! An error occurred while inserting!"}, 500  # Internal Server Error
+
+        return item, 201  # 201 creating status
+
+    @classmethod
+    def insert(cls, item):
         connection = sqlite3.connect("data.db")
         cursor = connection.cursor()
 
@@ -63,29 +72,46 @@ class Item(Resource):
         connection.commit()  # need to commit!
         connection.close()
 
-        return item, 201  # 201 creating status
-
     def delete(self, name):
-        global items  # otherwise will be local variable and cant use variable to define itself
-        items = list(filter(lambda item: item["name"] != name, items))
+        # global items  # otherwise will be local variable and cant use variable to define itself
+        # items = list(filter(lambda item: item["name"] != name, items))
 
-        return {"message": "item has been deleted."}
+        connection = sqlite3.connect("data.db")
+        cursor = connection.cursor()
 
+        delete_query = "DELETE FROM items WHERE  name = ?"
+        cursor.execute(delete_query, (name,))
+
+        connection.commit()  # need to commit!
+        connection.close()
+
+        return {"message": "GREAT! Item has been deleted."}
+
+    # if exist update, or add new item
     def put(self, name):
-
-        # data = request.get_json()
         data = Item.parser.parse_args()  # input
 
-        for item in items:
-            if item["name"] == name:
-                item.update(data)
-                return item
-        item = {
-            "name": name,
-            "price": data["price"]
+        item = Item.find_by_name(name)
+        updated_item = {
+                "name": name,
+                "price": data["price"]
         }
-        items.append(item)
-        return item
+        if item:
+            Item.update(updated_item)
+        else:
+            Item.insert(updated_item)
+        return updated_item
+
+    @classmethod
+    def update(cls, item):
+        connection = sqlite3.connect("data.db")
+        cursor = connection.cursor()
+
+        update_query = "UPDATE FROM items SET price=? WHERE  name=?"
+        cursor.execute(update_query, (item["price"], item["name"] ))
+
+        connection.commit()  # need to commit!
+        connection.close()
 
 
 class ItemList(Resource):
