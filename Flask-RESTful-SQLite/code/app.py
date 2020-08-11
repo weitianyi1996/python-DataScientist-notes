@@ -16,8 +16,6 @@ jwt = JWT(app, authenticate, identity)  # jwt object create a new endpoint: /aut
 # jwt_required() done- call GET/POST method
 
 
-
-
 # endpoints
 api.add_resource(Item, "/item/<string:name>")  # call API- decorator  http://127.0.0.1:5000/student/toby
 api.add_resource(ItemList, "/items")  # call API- decorator  http://127.0.0.1:5000/student/toby
@@ -26,7 +24,7 @@ api.add_resource(UserRegister, "/register")  # call API- decorator  http://127.0
 
 # make sure it's only running app.py
 # if imported by other file, __name__ = item
-if __name__ == "__main__":
+if __name__ == "__main__":  # check if running itself
     app.run(port=9000, debug=True)
 
 
