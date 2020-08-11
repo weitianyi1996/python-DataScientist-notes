@@ -18,13 +18,16 @@ jwt = JWT(app, authenticate, identity)  # jwt object create a new endpoint: /aut
 
 
 
-# endpoint
+# endpoints
 api.add_resource(Item, "/item/<string:name>")  # call API- decorator  http://127.0.0.1:5000/student/toby
 api.add_resource(ItemList, "/items")  # call API- decorator  http://127.0.0.1:5000/student/toby
 api.add_resource(UserRegister, "/register")  # call API- decorator  http://127.0.0.1:5000/register
 
 
-app.run(port=9000, debug=True)
+# make sure it's only running app.py
+# if imported by other file, __name__ = item
+if __name__ == "__main__":
+    app.run(port=9000, debug=True)
 
 
 
