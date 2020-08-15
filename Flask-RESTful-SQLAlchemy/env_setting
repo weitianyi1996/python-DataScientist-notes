@@ -1,0 +1,13 @@
+# under new folder Flask-RESTful-SQLAlchemy
+mkdir code
+virtualenv venv --python=python3.7
+source venv/bin/activate
+
+pip install Flask
+pip install Flask-JWT
+pip install Flask-RESTful
+pip install Flask-SQLAlchemy
+
+# copy all previous files into current new env
+cp ../Flask-RESTful-SQLite/code/* code/
+rm code/data.db
