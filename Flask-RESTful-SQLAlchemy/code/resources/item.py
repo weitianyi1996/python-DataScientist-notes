@@ -33,7 +33,7 @@ class Item(Resource):
 
         # if next(filter(lambda item: item["name"] == name, items), None):  # check if this item already exist
         #     return "this {} already exist.".format(name), 400
-        if Item.find_by_name(name):
+        if ItemModel.find_by_name(name):
             return "this {} already exist.".format(name), 400
 
         data = Item.parser.parse_args()
