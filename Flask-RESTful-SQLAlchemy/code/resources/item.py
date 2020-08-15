@@ -3,6 +3,8 @@ import sqlite3
 from flask_restful import Resource,  reqparse
 from flask_jwt import jwt_required
 
+from models.item import ItemModel
+
 # items = []  # mimic in memory database-replaced by sqlite database
 
 
@@ -21,24 +23,10 @@ class Item(Resource):
     @jwt_required()  # jwt auth before calling GET method
     def get(self, name):
         # item = next(filter(lambda item: item["name"] == name, items), None)  # return True/False- if no value return None
-        item = Item.find_by_name(name)
+        item = ItemModel.find_by_name(name)
         if item:
             return item
         return {"message": "item not found"}, 404
-
-    @classmethod
-    def find_by_name(cls, name):
-        connection = sqlite3.connect("data.db")
-        cursor = connection.cursor()
-
-        query = "SELECT * FROM items WHERE name=?"
-        result = cursor.execute(query, (name,))
-        row = result.fetchone()
-
-        connection.close()
-
-        if row:
-            return {"item": {"name": row[0], "price": row[1]}}
 
     def post(self, name):
         # send item to server and give it a price from UI
@@ -49,28 +37,14 @@ class Item(Resource):
             return "this {} already exist.".format(name), 400
 
         data = Item.parser.parse_args()
-        item = {
-                "name": name,
-                "price": data["price"]
-                }
+        item = ItemModel(name=name, price=data["price"])
 
         try:
-            Item.insert(item)
+            item.insert()
         except:
             return {"message": " NOTICE! An error occurred while inserting!"}, 500  # Internal Server Error
 
         return item, 201  # 201 creating status
-
-    @classmethod
-    def insert(cls, item):
-        connection = sqlite3.connect("data.db")
-        cursor = connection.cursor()
-
-        insert_query = "INSERT INTO items VALUES(?, ?)"
-        cursor.execute(insert_query, (item["name"], item["price"]))
-
-        connection.commit()  # need to commit!
-        connection.close()
 
     def delete(self, name):
         # global items  # otherwise will be local variable and cant use variable to define itself
@@ -92,26 +66,13 @@ class Item(Resource):
         data = Item.parser.parse_args()  # input
 
         item = Item.find_by_name(name)
-        updated_item = {
-                "name": name,
-                "price": data["price"]
-        }
+        updated_item = ItemModel(name=name, price=data["price"])
+
         if item:
-            Item.update(updated_item)
+            updated_item.update()  # use this item to update db
         else:
-            Item.insert(updated_item)
+            updated_item.insert()
         return updated_item
-
-    @classmethod
-    def update(cls, item):
-        connection = sqlite3.connect("data.db")
-        cursor = connection.cursor()
-
-        update_query = "UPDATE FROM items SET price=? WHERE  name=?"
-        cursor.execute(update_query, (item["price"], item["name"] ))
-
-        connection.commit()  # need to commit!
-        connection.close()
 
 
 class ItemList(Resource):
