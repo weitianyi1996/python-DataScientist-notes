@@ -7,6 +7,8 @@ from resources.user import UserRegister
 
 from resources.item import Item, ItemList
 
+from db import db
+
 app = Flask(__name__)
 app.secret_key = "tianyi"
 api = Api(app)   # no need different endpoints/routes
@@ -25,6 +27,7 @@ api.add_resource(UserRegister, "/register")  # call API- decorator  http://127.0
 # make sure it's only running app.py
 # if imported by other file, __name__ = item
 if __name__ == "__main__":  # check if running itself
+    db.init_app(app)
     app.run(port=9000, debug=True)
 
 
