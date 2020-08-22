@@ -40,7 +40,7 @@ class Item(Resource):
         item = ItemModel(name=name, price=data["price"])
 
         try:
-            item.insert()
+            item.save_to_db()
         except:
             return {"message": " NOTICE! An error occurred while inserting!"}, 500  # Internal Server Error
 
@@ -50,14 +50,9 @@ class Item(Resource):
         # global items  # otherwise will be local variable and cant use variable to define itself
         # items = list(filter(lambda item: item["name"] != name, items))
 
-        connection = sqlite3.connect("data.db")
-        cursor = connection.cursor()
-
-        delete_query = "DELETE FROM items WHERE  name = ?"
-        cursor.execute(delete_query, (name,))
-
-        connection.commit()  # need to commit!
-        connection.close()
+        item = ItemModel.find_by_name(name)
+        if item:
+            item.delete_from_db()
 
         return {"message": "GREAT! Item has been deleted."}
 
@@ -66,13 +61,15 @@ class Item(Resource):
         data = Item.parser.parse_args()  # input
 
         item = Item.find_by_name(name)
-        updated_item = ItemModel(name=name, price=data["price"])
 
         if item:
-            updated_item.update()  # use this item to update db
+            item["price"] = data["price"]  # update it
         else:
-            updated_item.insert()
-        return updated_item
+            item = ItemModel(name=name, price=data["price"])
+
+        item.save_to_db()  # update or insert(class/instance object with properties into db row)
+
+        return item.json()
 
 
 class ItemList(Resource):

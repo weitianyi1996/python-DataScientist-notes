@@ -10,6 +10,7 @@ from resources.item import Item, ItemList
 from db import db
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URL"] = "sqlite:///data.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = "tianyi"
 api = Api(app)   # no need different endpoints/routes
