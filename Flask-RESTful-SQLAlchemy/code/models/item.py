@@ -1,13 +1,21 @@
 import sqlite3
+from db import db
 
 
-class ItemModel:
+class ItemModel(db.Model):
+    __tablename__ = "items"
+
+    # 3 columns SQLAlchemt must match instance properties(self.id, username, password)
+    id = db.Columns(db.Integer, primary_key=True)
+    name = db.Columns(db.String(80))
+    price = db.Columns(db.Float(precision=2))
+
     def __init__(self, name, price):  # later be used either inserted or updated to database
         self.name = name
         self.price = price
 
     def json(self):
-        return { "name": self.name, "price": self.price }
+        return {"name": self.name, "price": self.price}
 
     @classmethod
     def find_by_name(cls, name):  # !this is going to return an object

@@ -1,7 +1,16 @@
 import sqlite3
+from db import db
 
 
-class UserModel:
+class UserModel(db.Model):
+    __tablename__ = "users"
+
+    # 3 columns SQLAlchemt must match instance properties(self.id, username, password)
+    # instance object/property - SQLAlchemy
+    id = db.Columns(db.Integer, primary_key=True)
+    username = db.Columns(db.String(80))
+    password = db.Columns(db.String(80))
+
     def __init__(self, _id, username, password):
         self.id = _id
         self.username = username
