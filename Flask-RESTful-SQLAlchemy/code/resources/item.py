@@ -74,20 +74,20 @@ class Item(Resource):
 
 class ItemList(Resource):
     def get(self):
-        connection = sqlite3.connect("data.db")
-        cursor = connection.cursor()
+        # connection = sqlite3.connect("data.db")
+        # cursor = connection.cursor()
+        #
+        # query = "SELECT * FROM items"
+        # result = cursor.execute(query)
+        #
+        # items = []
+        # for row in result:
+        #     items.append({
+        #         "name": row[0],
+        #         "price": row[1]
+        #     })
+        #
+        # # connection.commit()  # need to commit! when editing datatable
+        # connection.close()
 
-        query = "SELECT * FROM items"
-        result = cursor.execute(query)
-
-        items = []
-        for row in result:
-            items.append({
-                "name": row[0],
-                "price": row[1]
-            })
-
-        # connection.commit()  # need to commit! when editing datatable
-        connection.close()
-
-        return {"items": items}
+        return {"items": [item.json() for item in ItemModel.query.all()]}  # item already in class instance object
