@@ -67,7 +67,7 @@ class Item(Resource):
         else:
             item = ItemModel(name=name, price=data["price"])
 
-        item.save_to_db()  # update or insert(class/instance object with properties into db row)
+        item.save_to_db()  # update or insert(class/zinstance object with properties into db row)
 
         return item.json()
 
