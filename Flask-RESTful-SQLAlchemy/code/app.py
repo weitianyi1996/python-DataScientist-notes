@@ -15,6 +15,12 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = "tianyi"
 api = Api(app)   # no need different endpoints/routes
 
+
+@app.before_first_request
+def create_tables():
+    db.create_all()  # no longer need create_tables.py(using SQL to create table)
+
+
 jwt = JWT(app, authenticate, identity)  # jwt object create a new endpoint: /auth
 # auth workflow: if authenticate function pass return jw token-- pass to identity function
 # jwt_required() done- call GET/POST method
