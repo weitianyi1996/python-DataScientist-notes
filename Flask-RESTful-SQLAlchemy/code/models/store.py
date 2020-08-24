@@ -11,7 +11,7 @@ class StoreModel(db.Model):
 
     items = db.relationship("ItemModel")  # this is a list, tell SQLAlchemy there is relationship between these two (tables)
 
-    def __init__(self, name, price):  # later be used either inserted or updated to database
+    def __init__(self, name):  # later be used either inserted or updated to database
         self.name = name
 
     def json(self):

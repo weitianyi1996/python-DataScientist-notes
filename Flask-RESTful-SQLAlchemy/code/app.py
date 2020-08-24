@@ -6,6 +6,7 @@ from security import authenticate, identity
 from resources.user import UserRegister
 
 from resources.item import Item, ItemList
+from resources.store import Store, StoreList
 
 from db import db
 
@@ -30,6 +31,8 @@ jwt = JWT(app, authenticate, identity)  # jwt object create a new endpoint: /aut
 api.add_resource(Item, "/item/<string:name>")  # call API- decorator  http://127.0.0.1:5000/student/toby
 api.add_resource(ItemList, "/items")  # call API- decorator  http://127.0.0.1:5000/student/toby
 api.add_resource(UserRegister, "/register")  # call API- decorator  http://127.0.0.1:5000/register
+api.add_resource(Store, "/store/<string:name>")  # call API- decorator  http://127.0.0.1:5000/register
+api.add_resource(StoreList, "/stores")  # call API- decorator  http://127.0.0.1:5000/register
 
 
 # make sure it's only running app.py
