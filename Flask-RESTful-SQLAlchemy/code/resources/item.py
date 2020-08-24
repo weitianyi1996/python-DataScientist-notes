@@ -18,6 +18,12 @@ class Item(Resource):
                         required=True,
                         help="Check input! This field can not leave blank!!!"
                         )
+    parser = reqparse.RequestParser()
+    parser.add_argument("store_id",  # check if include "price" in dict's key
+                        type=int,
+                        required=True,
+                        help="Check input! Each item will have a store id!!!"
+                        )
 
     # @app.route("/student/<string:name>")
     @jwt_required()  # jwt auth before calling GET method
@@ -37,7 +43,7 @@ class Item(Resource):
             return "this {} already exist.".format(name), 400
 
         data = Item.parser.parse_args()
-        item = ItemModel(name=name, price=data["price"])
+        item = ItemModel(name=name, price=data["price"], store_id=data["store_id"])
 
         try:
             item.save_to_db()
@@ -65,7 +71,7 @@ class Item(Resource):
         if item:
             item["price"] = data["price"]  # update it
         else:
-            item = ItemModel(name=name, price=data["price"])
+            item = ItemModel(name=name, price=data["price"], store_id=data["store_id"])
 
         item.save_to_db()  # update or insert(class/zinstance object with properties into db row)
 
