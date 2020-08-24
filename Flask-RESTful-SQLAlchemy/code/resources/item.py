@@ -18,7 +18,6 @@ class Item(Resource):
                         required=True,
                         help="Check input! This field can not leave blank!!!"
                         )
-    parser = reqparse.RequestParser()
     parser.add_argument("store_id",  # check if include "price" in dict's key
                         type=int,
                         required=True,

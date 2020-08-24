@@ -1,4 +1,4 @@
-from flask_restful import Resource,  reqparse
+from flask_restful import Resource
 
 from models.store import StoreModel
 
@@ -26,7 +26,7 @@ class Store(Resource):
         if StoreModel.find_by_name(name):
             return "this {} already exist.".format(name), 400
 
-        store = StoreModel(name=name)
+        store = StoreModel(name)
 
         try:
             store.save_to_db()
@@ -48,5 +48,4 @@ class Store(Resource):
 
 class StoreList(Resource):
     def get(self):
-
         return {"stores": [store.json() for store in StoreModel.query.all()]}  # item already in class instance object
