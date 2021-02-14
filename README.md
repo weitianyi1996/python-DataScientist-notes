@@ -4,3 +4,4 @@ Keep my notes and code of learning python:
 2. Objected Oriented Programming
 3. Pandas Manipulation
 4. Python refresher
+5. AWS ML Certification notes
